@@ -1,3 +1,4 @@
+Pkg.add("HTTP")
 using HTTP
 include("../src/path_neighbors.jl")
 

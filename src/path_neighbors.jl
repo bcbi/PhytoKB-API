@@ -1,3 +1,4 @@
+
 # Given a leaf path generate its neighbors at different levels
 # May 05, 2018
 
@@ -47,6 +48,7 @@ function create_newick_qry(idx_arr, path, lvl, olvl, str)
         for i in 1:len
             #println("$path\.$i")
             str = create_newick_qry(idx_arr, "$path\.$i", lvl, olvl, str)
+            #println(str)
         end
     end
     return str
@@ -59,45 +61,26 @@ function create_newick(nbr_arr, qry_arr, slvl, dict_path, length_dict, dname_dic
 
     nwk = ""
     i = parse(Int64, split(qstr, "\.")[end])
-    prev_i = i
     while i >= slvl
-        println(nwk)
-        println("$i \=\> $prev_i \=\> $slvl \=\> $qstr")
+
         leaf = filter(x -> ismatch(Regex("$qstr"), x), nbr_arr)
         leaf = get_names(leaf, dict_path, length_dict, dname_dict)
-        #println(leaf)
+
         if length(leaf) > 0
-            #println("$i \=\> $prev_i \=\> $slvl \=\> $qstr")
-            #println("$(length(leaf)) \=\>")
-            if prev_i == i
-                if nwk == ""
-                    if length(leaf) != 1
-                        nwk = "\(" * join(leaf, ",") * "\)\:$(length_dict[join(split(qstr, "\.")[1:end-1], "\.")])"
-                    else
-                        nwk = join(leaf, ",")
-                    end
+            println("$i \=\> $i \=\> $slvl \=\> $qstr")
+            if nwk == ""
+                if length(leaf) != 1
+                    nwk = "\(" * join(leaf, ",") * "\)\:$(length_dict[join(split(qstr, "\.")[1:end-1], "\.")])"
                 else
-                    if length(leaf) != 1
-                        nwk = "\(" * join(leaf, ",") * "\)\:$(length_dict[join(split(qstr, "\.")[1:end-1], "\.")])" * "\," * nwk
-                    else
-                        nwk = join(leaf, ",") * "\," * nwk
-                    end
+                    nwk = join(leaf, ",")
                 end
             else
-                if qstr == "0\.1"
-                    #println("2111")
-                    nwk = join(leaf, ",") *  "\," * nwk
+                if length(leaf) != 1
+                    nwk = "\(" * join(leaf, ",") * "\)\:$(length_dict[join(split(qstr, "\.")[1:end-1], "\.")])" * "\," * nwk
                 else
-                    if length(leaf) == 1
-                        #println("3111")
-                        nwk = "\(" * join(leaf, ",") *  "\," * nwk * "\)\:$(length_dict[join(split(qstr, "\.")[1:end-1], "\.")])"
-                    else
-                        nwk = "\($(join(leaf, ","))\)\:$(length_dict[join(split(qstr, "\.")[1:end-1], "\.")])" *  "\," * "\(" * nwk * "\)\:$(length_dict[join(split(qstr, "\.")[1:end-3], "\.")])"
-                    end
+                    nwk = join(leaf, ",") * "\," * nwk
                 end
             end
-            prev_i = i
-            #println(nwk)
         end
         nbr_arr = filter(x -> !(ismatch(Regex("$qstr"), x)), nbr_arr)
         qry_arr = filter(x -> !(ismatch(Regex("$qstr"), x)), qry_arr)
@@ -106,10 +89,9 @@ function create_newick(nbr_arr, qry_arr, slvl, dict_path, length_dict, dname_dic
         else
             break
         end
-        #str = join(split(str, "\.")[1:j-1], "\.")
 
         i = parse(Int64, split(qstr, "\.")[end])
-        #println("\+\+$i")
+
     end
     return "\($nwk\)\;"
 end
