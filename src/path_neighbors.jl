@@ -39,6 +39,11 @@ function create_newick_qry(idx_arr, path, lvl, olvl, str)
     #lvl = parse(Int64, split(path, "\.")[end-1])
     lvl += 1
     olvl += 1
+    println("1 - $idx_arr")
+    println("2 - $path")
+    println("3 - $lvl")
+    println("4 - $olvl")
+    println("5 - $str")
     if lvl <= length(idx_arr)
         len = idx_arr[lvl]
         path = "$path\.$olvl"

@@ -1,44 +1,53 @@
-using DataFrames
 
-lengthFile = open("hd_tree_taxon_length.txt")
-len_df = DataFrame(Path = String[], Length = String[] )
-for ln in eachline(lengthFile)
-    ln = chomp(ln)
-    path = split(ln, "\$")[1]
-    len  = split(ln, "\$")[2]
-    push!(len_df, [path len])
-end
+nwk = readstring("src/hd_consensus_tree.nwk")
 
-heightFile = open("hd_tree_taxon_height.txt")
-h_df = DataFrame(Path = String[], Height = String[])
-for ln in eachline(heightFile)
-    ln = chomp(ln)
-    path = split(ln, "\$")[1]
-    hgt  = split(ln, "\$")[2]
-    push!(h_df, [path hgt])
-end
+text = "dr_1336926"
 
-pathFile = open("hd_tree_taxon_path.txt")
-path_df = DataFrame(Path = String[], ID = String[])
-for ln in eachline(pathFile)
-    ln   = chomp(ln)
-    id  = split(ln, "\$")[1]
-    path = split(ln, "\$")[2]
-    push!(path_df, [path id])
-end
+function get_subset_tree(taxon::String, newick_file::String, levels_up::Int64)
+    f = findfirst(taxon, newick_file)
 
-drugFile = open("drugid_names.txt")
-name_df = DataFrame(ID = String[], Name = String[])
-for ln in eachline(drugFile)
-    ln   = chomp(ln)
-    id  = split(ln, "\$")[1]
-    name = split(ln, "\$")[2]
-    name = replace(name, r"\,", "")
-    println(name)
-    push!(name_df, [id name])
+    start = first(f)
+    end_ = last(f)
+
+    while levels_up > 0 && start != 0
+        ps = findprev("(", newick_file, start)
+        pe = findnext(")", newick_file, end_)
+        start = ps[1] - 1
+        end_ = pe[1] + 1
+        println(nwk[end_])
+        #=
+        if nwk[end_] == ':'
+            add = findnext(",", newick_file, end_)
+            println(add)
+            global subset = newick_file[ps[1]:add[1]-1] * ");"
+        else
+        =#
+            global subset = newick_file[ps[1]:pe[1]] * ";"
+        #end
+        levels_up -= 1
+    end
+    println(subset)
+    return subset
 end
 
 
-df = join(len_df, h_df, on = :Path, kind = :outer)
-df = join(df, path_df, on = :Path, kind = :outer)
-df = join(df, name_df, on = :ID, kind = :outer)
+#=
+ss = get_subset_tree(text, nwk, 3)
+
+open_parenthesis = 0
+close_parenthesis = 0
+for i in 1:length(ss)
+    if ss[i] == '('
+        open_parenthesis += 1
+    elseif ss[i] == ')'
+        close_parenthesis += 1
+    end
+end
+println(open_parenthesis, close_parenthesis)
+
+=#
+
+#= TODO
+- review number of parenthesis
+- find and replace IDs by names
+=#
