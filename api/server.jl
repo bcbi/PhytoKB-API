@@ -26,8 +26,7 @@ function run_server()
             "Access-Control-Allow-Origin" => "*" )
 
         #return HTTP.Response(200, HTTP.Headers(collect(headers)), body = main(query_dict["id"], query_dict["level"], length_dict, height_dict, dname_dict, dict_path))
-        input_lvl = parse(Int64, query_dict["level"])
-        return HTTP.Response(200, HTTP.Headers(collect(headers)), body = get_subset_tree(query_dict["id"], nwk, input_lvl))
+        return HTTP.Response(200, HTTP.Headers(collect(headers)), body = main(nwk, query_dict["id"], query_dict["level"], dname_dict))
 
     end
 
