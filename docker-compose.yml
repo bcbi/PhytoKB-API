@@ -1,10 +1,10 @@
 version: '3'
 services:
-  web:
+  backend:
     image: 'julia:0.6.2'
     volumes:
       - './:/server'
     working_dir: '/server'
     command: 'julia api/server.jl'
     ports:
-      - 8081:80
+      - "8081:8081"

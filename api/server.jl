@@ -1,7 +1,14 @@
-#Pkg.add("HTTP")
+
+Pkg.init()
+Pkg.update()
+
+Pkg.add("HTTP")
+
+Pkg.resolve()
+
 using HTTP
-include("../src/path_neighbors.jl")
-include("../src/data_processing.jl")
+#include("../src/path_neighbors.jl")
+include("../src/newick_subset_parser.jl")
 
 
 
