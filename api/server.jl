@@ -1,13 +1,4 @@
-
-Pkg.init()
-Pkg.update()
-
-Pkg.add("HTTP")
-
-Pkg.resolve()
-
 using HTTP
-#include("../src/path_neighbors.jl")
 include("../src/newick_subset_parser.jl")
 
 
@@ -32,7 +23,6 @@ function run_server()
             "Date"              => Dates.format(now(Dates.UTC), Dates.RFC1123Format),
             "Access-Control-Allow-Origin" => "*" )
 
-        #return HTTP.Response(200, HTTP.Headers(collect(headers)), body = main(query_dict["id"], query_dict["level"], length_dict, height_dict, dname_dict, dict_path))
         return HTTP.Response(200, HTTP.Headers(collect(headers)), body = main(nwk, query_dict["id"], query_dict["level"], dname_dict))
 
     end
