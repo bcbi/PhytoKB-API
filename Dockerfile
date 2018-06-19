@@ -13,6 +13,6 @@ WORKDIR /usr/bin/phytokb
 # Bundle app source
 COPY . /usr/bin/phytokb
 
-EXPOSE 8081
+EXPOSE 8089
 
 CMD julia api/server.jl

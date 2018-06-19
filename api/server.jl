@@ -7,7 +7,7 @@ function run_server()
 
     query_dict = Dict()
 
-    HTTP.listen() do request::HTTP.Request
+    HTTP.listen("0.0.0.0", 8089, reauseaddr=true) do request::HTTP.Request
 
         println("******************")
         @show request
