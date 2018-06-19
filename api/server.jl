@@ -26,8 +26,6 @@ function run_server()
         return HTTP.Response(200, HTTP.Headers(collect(headers)), body = main(nwk, query_dict["id"], query_dict["level"], dname_dict))
 
     end
-
-
 end
 
 run_server()

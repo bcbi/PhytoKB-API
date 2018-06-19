@@ -1,3 +1,5 @@
+nwk = readstring("src/hd_consensus_tree.nwk")
+
 
 function find_start(str::String, taxon::String, levels_up::Int64)
     start = findfirst(taxon, str)[1]

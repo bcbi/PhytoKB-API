@@ -2,6 +2,7 @@ FROM julia:0.6.3
 
 # ----------------------Julia web-app specific packages--------------------------------
 # my packages
+
 ADD src/install_pkgs.jl /tmp/install_pkgs.jl
 RUN julia /tmp/install_pkgs.jl
 
@@ -14,4 +15,4 @@ COPY . /usr/bin/phytokb
 
 EXPOSE 8081
 
-CMD ["julia", "api/server.jl"]
+CMD julia api/server.jl
