@@ -1,4 +1,4 @@
-# PhyloZoom API
+## PhyloZoom API
 
 [![Travis](https://img.shields.io/travis/bcbi/phylozoom-frontend.svg?style=flat-square)](https://travis-ci.org/bcbi/phylozoom-frontend)
 [![License](https://img.shields.io/badge/license-MIT-orange.svg?style=flat-square)](https://github.com/bcbi/phylozoom-api/blob/master/LICENSE)
