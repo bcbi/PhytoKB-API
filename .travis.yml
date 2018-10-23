@@ -8,9 +8,9 @@ matrix:
     - stage: build docker image
       script:
         - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-        - docker build -t phylozoom-api .
+        - docker build -t phylozoom_api .
         - docker images
-        - docker tag phylozoom-api $DOCKER_ORGANIZATION/phylozoom-api
-        - docker push $DOCKER_ORGANIZATION/phylozoom-api
+        - docker tag phylozoom-api $DOCKER_ORGANIZATION/phylozoom_api
+        - docker push $DOCKER_ORGANIZATION/phylozoom_api
       on:
         branch: master
